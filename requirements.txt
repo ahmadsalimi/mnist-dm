@@ -1,5 +1,5 @@
 torch
-pytorch-lightning
+pytorch-lightning==1.9.1
 torchvision
 imageio
 jsonargparse[signatures]>=4.18.0
