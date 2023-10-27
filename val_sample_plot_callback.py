@@ -1,5 +1,5 @@
 import os
-from typing import Any, Tuple
+from typing import Any
 
 import pytorch_lightning as pl
 import imageio
