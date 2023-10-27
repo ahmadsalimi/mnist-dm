@@ -1,0 +1,15 @@
+seed_everything: 37
+trainer:
+  callbacks:
+    - class_path: val_sample_plot_callback.ValSamplePlot
+      init_args:
+        directory: ./drive/MyDrive/MnistDM/unconditional/samples
+
+  check_val_every_n_epoch: 1
+
+  max_epochs: 100
+
+  default_root_dir: ./drive/MyDrive/MnistDM/unconditional
+
+data:
+  batch_size: 256
