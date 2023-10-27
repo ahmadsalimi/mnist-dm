@@ -6,14 +6,15 @@ import imageio
 import torch
 
 
-def save_as_gif(frames: torch.Tensor, filename: str, fps: int = 100) -> None:
+def save_as_gif(frames: torch.Tensor, filename: str, fps: int = 100, real_fps: int = 10) -> None:
     # frames                                                            # T x C x H x W
     frames = frames.squeeze(1)                                          # T x H x W
     frames_min = frames.reshape(frames.shape[0], -1).min(dim=1).values[:, None, None]
     frames_max = frames.reshape(frames.shape[0], -1).max(dim=1).values[:, None, None]
     frames = (frames - frames_min) / (frames_max - frames_min)
     frames = (255 * frames).byte().cpu().numpy()
-    imageio.mimsave(filename, frames, fps=fps)
+    frames = frames[::fps // real_fps]
+    imageio.mimsave(filename, frames, fps=real_fps)
 
 
 class ValSamplePlot(pl.callbacks.BasePredictionWriter):
