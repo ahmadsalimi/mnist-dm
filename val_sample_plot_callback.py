@@ -6,7 +6,7 @@ import imageio
 import torch
 
 
-def save_as_gif(frames: torch.Tensor, filename: str, fps: int = 10) -> None:
+def save_as_gif(frames: torch.Tensor, filename: str, fps: int = 100) -> None:
     # frames                                                            # T x C x H x W
     frames = frames.squeeze(1)                                          # T x H x W
     frames_min = frames.reshape(frames.shape[0], -1).min(dim=1).values[:, None, None]
