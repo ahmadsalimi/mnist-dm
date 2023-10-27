@@ -1,3 +1,4 @@
+from functools import cached_property
 from typing import Union, Tuple, List
 
 import torch
@@ -25,10 +26,21 @@ class MNISTDiffusionUNetModule(LightningModule):
                             n_blocks=n_blocks,
                             lr=lr,
                             weight_decay=weight_decay)
-        self.betas = torch.linspace(beta_start, beta_end, T, device=self.device)
-        self.alphas = 1 - self.betas
-        # alpha-hat in the paper, precompute them
-        self.alphas_bar = self.alphas.cumprod(dim=0)
+
+    @cached_property
+    def betas(self) -> torch.Tensor:
+        return torch.linspace(self.hparams['beta_start'],
+                              self.hparams['beta_end'],
+                              self.hparams['T'],
+                              device=self.device)
+
+    @cached_property
+    def alphas(self) -> torch.Tensor:
+        return 1 - self.betas
+
+    @cached_property
+    def alphas_bar(self) -> torch.Tensor:
+        return self.alphas.cumprod(dim=0)
 
     def forward(self, x: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
         return self.epsilon_theta(x, t)
