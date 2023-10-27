@@ -21,10 +21,10 @@ class ValSamplePlot(pl.callbacks.BasePredictionWriter):
     def __init__(self, directory: str) -> None:
         super().__init__(write_interval='batch')
         self.directory = directory
-        self.predictions = torch.tensor([])
+        self.predictions = None
 
     def on_validation_epoch_start(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> None:
-        self.predictions = torch.tensor([])
+        self.predictions = torch.tensor([], device=pl_module.device)
 
     def on_validation_batch_end(
         self,
