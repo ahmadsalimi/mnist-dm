@@ -2,3 +2,4 @@ torch
 pytorch-lightning
 torchvision
 imageio
+jsonargparse[signatures]>=4.18.0
